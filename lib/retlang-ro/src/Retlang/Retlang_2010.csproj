@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{65ABCF4F-88F0-46EF-A6CF-71850019262E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Retlang</RootNamespace>
+    <AssemblyName>Retlang</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Retlang.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Retlang.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Channels\BaseSubscription.cs" />
+    <Compile Include="Channels\BatchSubscriber.cs" />
+    <Compile Include="Channels\Channel.cs" />
+    <Compile Include="Channels\ChannelRequest.cs" />
+    <Compile Include="Channels\ChannelSubscription.cs" />
+    <Compile Include="Channels\IChannel.cs" />
+    <Compile Include="Channels\IProducerThreadSubscriber.cs" />
+    <Compile Include="Channels\IPublisher.cs" />
+    <Compile Include="Channels\IQueueChannel.cs" />
+    <Compile Include="Channels\IReply.cs" />
+    <Compile Include="Channels\IReplySubscriber.cs" />
+    <Compile Include="Channels\IRequest.cs" />
+    <Compile Include="Channels\IRequestPublisher.cs" />
+    <Compile Include="Channels\IRequestReplyChannel.cs" />
+    <Compile Include="Channels\ISnapshotChannel.cs" />
+    <Compile Include="Channels\ISubscribable.cs" />
+    <Compile Include="Channels\ISubscriber.cs" />
+    <Compile Include="Channels\KeyedBatchSubscriber.cs" />
+    <Compile Include="Channels\LastSubscriber.cs" />
+    <Compile Include="Channels\QueueChannel.cs" />
+    <Compile Include="Channels\QueueConsumer.cs" />
+    <Compile Include="Channels\RequestReplyChannel.cs" />
+    <Compile Include="Channels\SnapshotChannel.cs" />
+    <Compile Include="Channels\Unsubscriber.cs" />
+    <Compile Include="Core\DefaultQueue.cs" />
+    <Compile Include="Core\DefaultExecutor.cs" />
+    <Compile Include="Core\BoundedQueue.cs" />
+    <Compile Include="Core\Scheduler.cs" />
+    <Compile Include="Core\DefaultThreadPool.cs" />
+    <Compile Include="Core\ISubscriptionRegistry.cs" />
+    <Compile Include="Core\BusyWaitQueue.cs" />
+    <Compile Include="Core\Subscriptions.cs" />
+    <Compile Include="Core\IExecutor.cs" />
+    <Compile Include="Core\IQueue.cs" />
+    <Compile Include="Core\IExecutionContext.cs" />
+    <Compile Include="Core\ISchedulerRegistry.cs" />
+    <Compile Include="Core\IPendingEvent.cs" />
+    <Compile Include="Core\IScheduler.cs" />
+    <Compile Include="Core\IThreadPool.cs" />
+    <Compile Include="Core\PendingAction.cs" />
+    <Compile Include="Core\QueueFullException.cs" />
+    <Compile Include="Core\RecurringEvent.cs" />
+    <Compile Include="Core\Lists.cs" />
+    <Compile Include="Core\SingleEvent.cs" />
+    <Compile Include="Core\TimerAction.cs" />
+    <Compile Include="Fibers\DispatcherAdapter.cs" />
+    <Compile Include="Fibers\FormAdapter.cs" />
+    <Compile Include="Fibers\GuiFiber.cs" />
+    <Compile Include="Fibers\DispatcherFiber.cs" />
+    <Compile Include="Fibers\ExecutionState.cs" />
+    <Compile Include="Fibers\FormFiber.cs" />
+    <Compile Include="Fibers\IFiber.cs" />
+    <Compile Include="Fibers\PoolFiber.cs" />
+    <Compile Include="Fibers\StubFiber.cs" />
+    <Compile Include="Fibers\StubScheduledAction.cs" />
+    <Compile Include="Fibers\ThreadFiber.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Retlang.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
