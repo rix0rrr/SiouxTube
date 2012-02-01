@@ -27,6 +27,7 @@ namespace SiouxTube
                     TVCodes.ArrowDown,
                     TVCodes.ArrowDown,
                     TVCodes.ArrowDown,
+                    TVCodes.ArrowDown,
                     TVCodes.ArrowRight);
             } catch (Exception) { }
         }
@@ -37,7 +38,6 @@ namespace SiouxTube
             {
                 remoteControl.TransmitAll(
                     TVCodes.SourcesMenu,
-                    TVCodes.ArrowDown,
                     TVCodes.ArrowDown,
                     TVCodes.ArrowRight);
             } catch (Exception) { }
