@@ -39,7 +39,7 @@ namespace SiouxTube
 
             WindowStyle = WindowStyle.None;
             WindowState = WindowState.Maximized;
-            Dispatcher.BeginInvoke((Action)HideWindow); // Do hiding fully after creation
+            ShowInTaskbar = false;
             
             Cursor = Cursors.None;
             try
@@ -62,13 +62,11 @@ namespace SiouxTube
         private void HideWindow()
         {
             Hide();
-            ShowInTaskbar = false;
         }
 
         private void ShowWindow()
         {
             Show();
-            ShowInTaskbar = true;
         }
 
         private void OnPlaylistFinished()

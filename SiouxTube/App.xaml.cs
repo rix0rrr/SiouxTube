@@ -37,7 +37,6 @@ namespace SiouxTube
             var playlist    = new PlaylistController(poolFiber, richChannel, finishedChannel, commandChannel);
 
             var main = new MainWindow(commandChannel, finishedChannel);
-            main.Show();
 
             lunchFilter.Enabled = settings.UseLunchFilter;
 
