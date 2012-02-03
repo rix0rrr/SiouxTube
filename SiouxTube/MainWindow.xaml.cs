@@ -71,6 +71,7 @@ namespace SiouxTube
 
         private void OnPlaylistFinished()
         {
+            tv.SwitchToExt1();
             HideWindow();
         }
 

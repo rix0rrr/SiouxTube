@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IguanaRC5;
+using System.Threading;
 
 namespace SiouxTube
 {
@@ -29,6 +30,9 @@ namespace SiouxTube
                     TVCodes.ArrowDown,
                     TVCodes.ArrowDown,
                     TVCodes.ArrowRight);
+
+                // The TV takes a while to switch, so add some sleep for it to catch up
+                Thread.Sleep(2000);
             } catch (Exception) { }
         }
 

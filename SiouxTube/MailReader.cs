@@ -6,6 +6,7 @@ using Retlang.Fibers;
 using AE.Net.Mail;
 using System.Net.Sockets;
 using System.Windows;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -68,6 +69,7 @@ namespace SiouxTube
         private IEnumerable<Tuple<int, MailMessage>> UnreadMessages(Pop3Client pop3)
         {
             var count = pop3.GetMessageCount();
+            Debug.WriteLine("Found {0} messages", count);
             for (var i = 0; i < count; i++)
             {
                 var msgHeads = pop3.GetMessage(i, true);
