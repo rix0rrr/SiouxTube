@@ -53,6 +53,8 @@ namespace SiouxTube
                         messageChannel.Publish(msg.Item2);
                         HandledMessage(client, msg);
                     }
+
+                    client.Disconnect(); // Necessary otherwise new mails won't be detected on next connect... (???)
                 }
                 // Disconnect will  trigger cleanup of deleted messages
             }
