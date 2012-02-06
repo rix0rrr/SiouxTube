@@ -13,7 +13,7 @@ namespace SiouxTube
     public class LinkExtractor : IDisposable
     {
         private static Regex YouTubeLinkRegex = new Regex(
-            @"http://(?:www\.)?youtube\.com/watch\?v=(?<videoid>[a-zA-Z0-9_-]+)(?:&([a-zA-Z0-9_-]+)(?:=)([a-zA-Z0-9_-]+))*");
+            @"http://(?:www\.)?youtube\.com/watch\?(.*&)?v=(?<videoid>[a-zA-Z0-9_-]+)");
 
         private readonly IPublisher<SimpleYouTubeClip> clipChannel;
         private readonly IDisposable subscription;
