@@ -32,7 +32,7 @@ namespace SiouxTube
                     TVCodes.ArrowRight);
 
                 // The TV takes a while to switch, so add some sleep for it to catch up
-                Thread.Sleep(2000);
+                Thread.Sleep(8000);
             } catch (Exception) { }
         }
 

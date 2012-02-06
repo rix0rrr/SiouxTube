@@ -78,6 +78,7 @@ namespace SiouxTube
         private void OnPlaylistBegins()
         {
             tv.SwitchToPCInput();
+            MoveMouseToSide();
             ShowWindow();
         }
 
@@ -98,6 +99,15 @@ namespace SiouxTube
         private void Window_Closed(object sender, EventArgs e)
         {
             App.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Move the mouse to the right side of the screen
+        /// </summary>
+        private void MoveMouseToSide()
+        {
+            var r = System.Windows.Forms.SystemInformation.VirtualScreen;
+            Mouse.Location = new Point(r.Width, r.Height / 2);
         }
     }
 }

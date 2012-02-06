@@ -5,7 +5,8 @@
         Height="350"
         Width="525"
         ResizeMode="NoResize"
-        Closed="Window_Closed">
+        Closed="Window_Closed"
+        Topmost="True">
     <Grid>
         <WebBrowser Name="Browser" />
     </Grid>
