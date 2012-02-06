@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using IguanaRC5;
 using System.Threading;
+using System.ServiceProcess;
 
 namespace SiouxTube
 {
@@ -16,7 +17,34 @@ namespace SiouxTube
 
         public void Initialize()
         {
-            remoteControl.Initialize();
+            try
+            {
+                remoteControl.Initialize();
+            }
+            catch (Exception ex)
+            {
+                // If there is an error about the daemon, try restarting it once
+                if (ex.Message.Contains("daemon"))
+                {
+                    RestartService();
+                    remoteControl.Initialize();
+                }
+            }
+        }
+
+        private void RestartService()
+        {
+            var timeout = TimeSpan.FromSeconds(10);
+
+            var svc = new ServiceController("igdaemon");
+            if (svc.Status == ServiceControllerStatus.Running)
+            {
+                svc.Stop();
+                svc.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+            }
+
+            svc.Start();
+            svc.WaitForStatus(ServiceControllerStatus.Running, timeout);
         }
 
         public void SwitchToPCInput()
