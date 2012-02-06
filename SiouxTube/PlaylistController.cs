@@ -33,7 +33,7 @@ namespace SiouxTube
         private void NewClip(RichYouTubeClip clip)
         {
             playQueue.AddLast(clip);
-            PlayNext();
+            if (!currentlyPlaying) PlayNext();
         }
         
         private void Finished(RichYouTubeClip clip)
