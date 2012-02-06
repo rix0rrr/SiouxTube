@@ -22,8 +22,6 @@ namespace SiouxTube
         private readonly Dictionary<string, bool> seenUuids = new Dictionary<string, bool>();
         private readonly IDisposable subscription;
 
-        private bool checkingBroken = false;
-        
         public MailReader (ServerAddress popServerAddress, long checkIntervalMs, bool deleteReadMessages, IFiber fiber, IPublisher<MailMessage> messageChannel)
         {
             this.popServerAddress = popServerAddress;
@@ -39,8 +37,6 @@ namespace SiouxTube
         /// </summary>
         private void CheckNow()
         {
-            if (checkingBroken) return;
-
             try
             {
                 using (Pop3Client client = new Pop3Client())
@@ -60,8 +56,7 @@ namespace SiouxTube
             }
             catch (Exception ex)
             {
-                checkingBroken = true;
-                MessageBox.Show(ex.Message, "An error occurred checking the mailbox", MessageBoxButton.OK, MessageBoxImage.Error);
+                Debug.WriteLine("An error occurred checking the mailbox: {0}", ex);
             }
         }
         
