@@ -84,6 +84,8 @@ namespace SiouxTube
 
         private void OnPlayClip(PlayClip playClip)
         {
+            SenderName.Text = playClip.Clip.Submitter;
+            ClipTitle.Text = playClip.Clip.Title;
             Browser.Navigate(playClip.Clip.EmbeddedURL);
             currentClip = playClip.Clip;
 

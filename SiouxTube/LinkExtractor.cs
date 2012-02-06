@@ -37,7 +37,7 @@ namespace SiouxTube
             if (match.Success)
             {
                 var vid = match.Groups["videoid"].Value;
-                var clip = new SimpleYouTubeClip(vid, m.From != null ? m.From.ToString() : "Unknown Sender", DateTime.Now);
+                var clip = new SimpleYouTubeClip(vid, m.From != null ? m.From.DisplayName : "Unknown Sender", DateTime.Now);
                 clipChannel.Publish(clip);
             }
         }
