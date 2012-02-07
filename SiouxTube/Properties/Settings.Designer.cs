@@ -118,5 +118,17 @@ namespace SiouxTube.Properties {
                 this["UseLunchFilter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int StartupDelaySecs {
+            get {
+                return ((int)(this["StartupDelaySecs"]));
+            }
+            set {
+                this["StartupDelaySecs"] = value;
+            }
+        }
     }
 }

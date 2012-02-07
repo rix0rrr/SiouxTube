@@ -8,6 +8,7 @@ using Retlang.Fibers;
 using Retlang.Channels;
 using AE.Net.Mail;
 using SiouxTube.Properties;
+using System.Threading;
 
 namespace SiouxTube
 {
@@ -19,6 +20,7 @@ namespace SiouxTube
         protected override void OnStartup(StartupEventArgs e)
         {
             var settings = Settings.Default;
+            Thread.Sleep(settings.StartupDelaySecs * 1000);
 
             var poolFiber = new PoolFiber();
             poolFiber.Start();
