@@ -47,7 +47,8 @@ namespace SiouxTube
         /// </summary>
         private string MessageAsText(MailMessage m)
         {
-            return m.Subject + Environment.NewLine + m.Body;
+            return m.Subject + Environment.NewLine + m.Body + 
+                string.Join(Environment.NewLine, m.Attachments.Where(_ => _.ContentType == "text/plain").Select(_ => _.Body));
         }
 
         public void Dispose()
