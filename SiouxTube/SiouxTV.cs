@@ -41,10 +41,12 @@ namespace SiouxTube
             {
                 svc.Stop();
                 svc.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+                Thread.Sleep(1000);
             }
 
             svc.Start();
             svc.WaitForStatus(ServiceControllerStatus.Running, timeout);
+            Thread.Sleep(2000); // Give service some time to get started properly (because it responds too quickly to the SVC queries)
         }
 
         public void SwitchToPCInput()
