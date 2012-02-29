@@ -10,6 +10,7 @@
     <Grid Background="Black">
         <WebBrowser Name="Browser" Margin="0,0,0,20"/>
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="20" Foreground="Gray" Name="ClipTitle" />
+        <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Gray" Name="ElapsedTime" />
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="20" Foreground="Gray" Name="SenderName" />
     </Grid>
 </Window>
