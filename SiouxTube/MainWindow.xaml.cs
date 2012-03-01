@@ -23,6 +23,9 @@ namespace SiouxTube
     public partial class MainWindow : Window
     {
         private Timer finishedTimer;
+        private System.Timers.Timer progressTimer;
+        private TimeSpan progress;
+        private TimeSpan duration;
         private RichYouTubeClip currentClip;
         private IPublisher<RichYouTubeClip> finishedChannel;
         private SiouxTV tv = new SiouxTV();
@@ -33,6 +36,11 @@ namespace SiouxTube
             this.finishedChannel = finishedChannel;
 
             finishedTimer = new Timer(TimerExpired);
+            
+            progressTimer = new System.Timers.Timer(1000);
+            progressTimer.AutoReset = true;
+            progressTimer.Elapsed += new System.Timers.ElapsedEventHandler(progressTimer_Elapsed);
+
             var fiber     = new DispatcherFiber(Dispatcher);
             commandChannel.Subscribe(fiber, OnPlayerCommand);
             fiber.Start();
@@ -88,10 +96,25 @@ namespace SiouxTube
             ClipTitle.Text = playClip.Clip.Title;
             Browser.Navigate(playClip.Clip.EmbeddedURL);
             currentClip = playClip.Clip;
+            duration = playClip.Clip.Duration;
+
+            progress = new TimeSpan(0);
+            ElapsedTime.Text = "00:00 / " + duration.ToString(@"mm\:ss");
+            progressTimer.Start();
 
             // This is the bastard way to signal a finished clip -- take the duration and add a couple of seconds...
             finishedTimer.Change((playClip.Clip as RichYouTubeClip).Duration + new TimeSpan(0, 0, 5), new TimeSpan(0, 0, 0, 0, -1));
         }
+
+        void progressTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            if(progress < duration)
+                progress += new TimeSpan(0, 0, 0, 1);
+
+            // We can call on the current thread
+            this.Dispatcher.Invoke((Action)delegate { ElapsedTime.Text = progress.ToString(@"mm\:ss") + " / " + duration.ToString(@"mm\:ss"); });
+        }
+
 
         private void TimerExpired(object sender)
         {
