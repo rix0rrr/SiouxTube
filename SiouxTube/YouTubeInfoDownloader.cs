@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using Retlang.Channels;
 using Retlang.Fibers;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -27,6 +28,8 @@ namespace SiouxTube
         {
             var dataUrl = string.Format("http://gdata.youtube.com/feeds/api/videos/{0}", simple.ID);
 
+            Debug.WriteLine("Downloading " + dataUrl);
+
             using (var wc = new WebClient())
             {
                 string xml = wc.DownloadString(dataUrl);
@@ -41,6 +44,7 @@ namespace SiouxTube
                 var thumbnailURL = new Uri(doc.GetElementsByTagName("media:thumbnail")[0].Attributes["url"].Value);
 
                 var rich = RichYouTubeClip.FromSimple(simple, duration, title, thumbnailURL);
+                Debug.WriteLine("YouTube clip enriched. Publishing.");
                 richChannel.Publish(rich);
             }
         }

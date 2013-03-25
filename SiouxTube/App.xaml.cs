@@ -9,6 +9,8 @@ using Retlang.Channels;
 using AE.Net.Mail;
 using SiouxTube.Properties;
 using System.Threading;
+using System.IO;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -19,6 +21,12 @@ namespace SiouxTube
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            RedirectDebug();
+
+            Debug.WriteLine("------------------------------------");
+            Debug.WriteLine("Application started");
+            Debug.WriteLine("------------------------------------");
+
             var settings = Settings.Default;
             Thread.Sleep(settings.StartupDelaySecs * 1000);
 
@@ -57,6 +65,25 @@ namespace SiouxTube
             }
 
             base.OnStartup(e);
+        }
+
+        private void RedirectDebug()
+        {
+            var listener = new TimestampedTraceListener(File.CreateText("siouxtube.log"));
+            Debug.Listeners.Add(listener);
+            Debug.AutoFlush = true;
+        }
+    }
+
+    class TimestampedTraceListener : TextWriterTraceListener
+    {
+        public TimestampedTraceListener(StreamWriter streamWriter) : base(streamWriter)
+        {
+        }
+
+        protected override void WriteIndent()
+        {
+            Writer.Write("[" + DateTime.Now.ToLongTimeString() + "] ");
         }
     }
 }

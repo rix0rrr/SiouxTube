@@ -2,6 +2,7 @@
 using IguanaRC5;
 using System.Threading;
 using System.ServiceProcess;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -48,6 +49,7 @@ namespace SiouxTube
 
         public void SwitchToPCInput()
         {
+            Debug.WriteLine("Switching TV to VGA input");
             try
             {
                 remoteControl.TransmitAll(
@@ -65,6 +67,7 @@ namespace SiouxTube
 
         public void SwitchToExt1()
         {
+            Debug.WriteLine("Switching TV to EXT1 input");
             try
             {
                 remoteControl.TransmitAll(

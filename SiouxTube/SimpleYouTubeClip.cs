@@ -46,6 +46,12 @@ namespace SiouxTube
                 return sb.ToString();
             }
         }
+
+        
+        public override string ToString()
+        {
+            return "Video " + ID + " (" + Submitter + " at " + SubmittedTime + ")";
+        }
     }
 }
 

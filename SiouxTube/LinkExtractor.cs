@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Retlang.Channels;
 using Retlang.Fibers;
 using AE.Net.Mail;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -12,8 +13,10 @@ namespace SiouxTube
     /// </summary>
     public class LinkExtractor : IDisposable
     {
-        private static Regex YouTubeLinkRegex = new Regex(
+        private static Regex YouTubeLinkRegex1 = new Regex(
             @"https?://(?:www\.)?youtube\.com/watch\?(.*&)?v=(?<videoid>[a-zA-Z0-9_-]+)");
+        private static Regex YouTubeLinkRegex2 = new Regex(
+            @"https?://(?:www\.)?youtu\.be/(?<videoid>[a-zA-Z0-9_-]+)");
 
         private readonly IPublisher<SimpleYouTubeClip> clipChannel;
         private readonly IDisposable subscription;
@@ -33,13 +36,18 @@ namespace SiouxTube
         /// </remarks>
         private void HandleMessage(MailMessage m)
         {
-            var match = YouTubeLinkRegex.Match(MessageAsText(m));
+            var match = YouTubeLinkRegex1.Match(MessageAsText(m));
+            if (!match.Success) match = YouTubeLinkRegex2.Match(MessageAsText(m));
+
             if (match.Success)
             {
                 var vid = match.Groups["videoid"].Value;
                 var clip = new SimpleYouTubeClip(vid, m.From != null ? m.From.DisplayName : "Unknown Sender", DateTime.Now);
+                Debug.WriteLine("In message '{0}' found: {1}", m.Subject, clip);
                 clipChannel.Publish(clip);
             }
+            else
+                Debug.WriteLine("Did not find a YouTube link in '" + m.Subject + "'");
         }
 
         /// <summary>

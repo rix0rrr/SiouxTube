@@ -39,6 +39,7 @@ namespace SiouxTube
         {
             try
             {
+                Debug.WriteLine("Checking for messages.");
                 using (Pop3Client client = new Pop3Client())
                 {
                     client.Connect(popServerAddress.Host, popServerAddress.Port, popServerAddress.Ssl);

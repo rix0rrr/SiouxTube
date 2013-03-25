@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Retlang.Channels;
 using Retlang.Fibers;
 using System.Threading;
+using System.Diagnostics;
 
 namespace SiouxTube
 {
@@ -92,6 +93,8 @@ namespace SiouxTube
 
         private void OnPlayClip(PlayClip playClip)
         {
+            Debug.WriteLine("Playing clip: " + playClip.Clip);
+
             SenderName.Text = playClip.Clip.Submitter;
             ClipTitle.Text = playClip.Clip.Title;
             Browser.Navigate(playClip.Clip.EmbeddedURL);

@@ -24,6 +24,11 @@ namespace SiouxTube
                 simple.ID, simple.Submitter, simple.SubmittedTime,
                 duration, title, thumbnailURL);
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + ": " + Title + " (" + Duration + ")";
+        }
     }
 }
 
