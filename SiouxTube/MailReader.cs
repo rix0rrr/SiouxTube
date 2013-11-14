@@ -7,6 +7,8 @@ using AE.Net.Mail;
 using System.Net.Sockets;
 using System.Windows;
 using System.Diagnostics;
+using System.Threading;
+using AE.Net.Mail.Imap;
 
 namespace SiouxTube
 {
@@ -19,79 +21,55 @@ namespace SiouxTube
         private readonly IPublisher<MailMessage> messageChannel;
         private readonly ServerAddress popServerAddress;
         private readonly bool deleteReadMessages;
-        private readonly Dictionary<string, bool> seenUuids = new Dictionary<string, bool>();
-        private readonly IDisposable subscription;
+        private readonly ImapClient imap;
 
         public MailReader (ServerAddress popServerAddress, long checkIntervalMs, bool deleteReadMessages, IFiber fiber, IPublisher<MailMessage> messageChannel)
         {
             this.popServerAddress = popServerAddress;
             this.messageChannel   = messageChannel;
             this.deleteReadMessages = deleteReadMessages;
-            
-            this.subscription = fiber.ScheduleOnInterval(CheckNow, 0, checkIntervalMs);
-        }
-        
-        /// <summary>
-        /// Check the mailbox for new unread e-mails and send them out over
-        /// the publisher channel
-        /// </summary>
-        private void CheckNow()
-        {
-            try
-            {
-                Debug.WriteLine("Checking for messages.");
-                using (Pop3Client client = new Pop3Client())
-                {
-                    client.Connect(popServerAddress.Host, popServerAddress.Port, popServerAddress.Ssl);
-                    client.Login(popServerAddress.Username, popServerAddress.Password);
-                    
-                    foreach (var msg in UnreadMessages(client))
-                    {
-                        messageChannel.Publish(msg.Item2);
-                        HandledMessage(client, msg);
-                    }
 
-                    client.Disconnect(); // Necessary otherwise new mails won't be detected on next connect... (???)
-                }
-                // Disconnect will  trigger cleanup of deleted messages
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("An error occurred checking the mailbox: {0}", ex);
-            }
-        }
-        
-        /// <summary>
-        /// Returns all unread messages in tuples along with their position in the mailbox
-        /// </summary>
-        private IEnumerable<Tuple<int, MailMessage>> UnreadMessages(Pop3Client pop3)
-        {
-            var count = pop3.GetMessageCount();
-            Debug.WriteLine("Found {0} messages", count);
-            for (var i = 0; i < count; i++)
-            {
-                var msgHeads = pop3.GetMessage(i, true);
-                if (seenUuids.ContainsKey(msgHeads.Uid)) continue; // Old message
+            this.imap = new ImapClient(popServerAddress.Host, popServerAddress.Username, popServerAddress.Password, ImapClient.AuthMethods.Login, popServerAddress.Port, popServerAddress.Ssl);
+            imap.SelectMailbox("INBOX");
 
-                yield return new Tuple<int, MailMessage>(i, pop3.GetMessage(i));
-            }
+            imap.NewMessage += HandleNewMessage;
         }
-        
+
         /// <summary>
-        /// Mark the message with the given UUID as handled. Either
-        /// delete the message or add it to the set of seen UUIDs.
+        /// Scan all messages currently in the mailbox
         /// </summary>
-        private void HandledMessage(Pop3Client pop3, Tuple<int, MailMessage> message)
+        private void ScanAllMessages() 
         {
+            var uids = imap.Search(SearchCondition.Unseen());
+            if (uids.Count() == 0) return;
+
+            Debug.WriteLine("Found {0} new messages", uids.Count());
+            foreach (var uid in uids)
+            {
+                var msg = imap.GetMessage(uid);
+                HandleMessage(msg);
+            }        
+        }
+
+        private void HandleNewMessage(object sender, MessageEventArgs args)
+        {
+            var msg = imap.GetMessage(args.MessageCount - 1);
+            if (msg == null) return;
+            Debug.WriteLine("Received a message: " + msg.Subject);
+            HandleMessage(msg);
+        }
+
+        private void HandleMessage(MailMessage message)
+        {
+            messageChannel.Publish(message);
             if (deleteReadMessages)
-                pop3.DeleteMessage(message.Item1);
-            else
-                seenUuids[message.Item2.Uid] = true;
+                imap.DeleteMessage(message);
         }
 
         public virtual void Dispose()
         {
-            subscription.Dispose();
+            imap.NewMessage -= HandleNewMessage;
+            imap.Disconnect();
         }
     }
 }

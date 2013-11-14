@@ -60,7 +60,7 @@ namespace SiouxTube
             // ----- MAIL INPUT ---------------------
             if (settings.MailHost != "")
             {
-                var server = new ServerAddress(settings.MailHost, settings.MailUseSsl ? 995 : 110, settings.MailUseSsl, settings.MailUser, settings.MailPassword);
+                var server = new ServerAddress(settings.MailHost, settings.MailUseSsl ? 993 : 143, settings.MailUseSsl, settings.MailUser, settings.MailPassword);
                 var mail = new MailReader(server, settings.MailCheckIntervalSecs * 1000, settings.DeleteHandledMail, poolFiber, mailChannel);
             }
 
