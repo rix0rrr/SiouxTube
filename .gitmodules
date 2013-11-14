@@ -1,6 +1,6 @@
 [submodule "lib/aenetmail"]
 	path = lib/aenetmail
-	url = https://rix0rrr@github.com/rix0rrr/aenetmail.git
+	url = https://github.com/andyedinborough/aenetmail.git
 [submodule "lib/rc5"]
 	path = lib/rc5
-	url = https://rix0rrr@github.com/rix0rrr/RC-5-Remote-Control-Codes.git
+	url = https://github.com/rix0rrr/RC-5-Remote-Control-Codes.git
